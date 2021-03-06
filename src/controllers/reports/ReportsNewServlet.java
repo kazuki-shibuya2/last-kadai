@@ -31,7 +31,7 @@ public class ReportsNewServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("_token", request.getSession().getId());
-
+        //日報の日時は、事前に本日の日付を取得して格納している
         Report r = new Report();
         r.setReport_date(new Date(System.currentTimeMillis()));
         request.setAttribute("report", r);

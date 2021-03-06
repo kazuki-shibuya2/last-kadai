@@ -25,7 +25,16 @@ import javax.persistence.Table;
         name = "getReportsCount",
         query = "SELECT COUNT(r) FROM Report AS r"
     ),
+    @NamedQuery(
+            name = "getMyAllReports",
+            query = "SELECT r FROM Report AS r WHERE r.employee = :employee ORDER BY r.id DESC"
+        ),
+        @NamedQuery(
+            name = "getMyReportsCount",
+            query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :employee"
+        )
 })
+
 @Entity
 public class Report {
     @Id
@@ -38,12 +47,14 @@ public class Report {
     private Employee employee;
 
     @Column(name = "report_date", nullable = false)
+    //詳細時刻ではなく、年月日のみを管理している
     private Date report_date;
 
     @Column(name = "title", length = 255, nullable = false)
     private String title;
 
     @Lob
+    //テキストエリアの指定を行っている
     @Column(name = "content", nullable = false)
     private String content;
 

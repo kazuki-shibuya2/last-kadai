@@ -60,13 +60,13 @@ public class LoginServlet extends HttpServlet {
 
         if(code != null && !code.equals("") && plain_pass != null && !plain_pass.equals("")) {
             EntityManager em = DBUtil.createEntityManager();
-
+           //ここの処理でペッパー文字列を連結した文字列をハッシュ化している
             String password = EncryptUtil.getPasswordEncrypt(
                     plain_pass,
                     (String)this.getServletContext().getAttribute("pepper")
                     );
 
-            // 社員番号とパスワードが正しいかチェックする
+            // 社員番号とパスワードが正しいかチェックするここでは特別処理がなくてもトライキャッチを実行
             try {
                 e = em.createNamedQuery("checkLoginCodeAndPassword", Employee.class)
                       .setParameter("code", code)
@@ -91,6 +91,7 @@ public class LoginServlet extends HttpServlet {
             rd.forward(request, response);
         } else {
             // 認証できたらログイン状態にしてトップページへリダイレクト
+            // セッションスコープにログインエンプロイーの情報を持っていることでログインとみなす。
             request.getSession().setAttribute("login_employee", e);
 
             request.getSession().setAttribute("flush", "ログインしました。");

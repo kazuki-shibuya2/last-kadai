@@ -55,7 +55,7 @@ public class EmployeesCreateServlet extends HttpServlet {
             e.setCreated_at(currentTime);
             e.setUpdated_at(currentTime);
             e.setDelete_flag(0);
-
+           // 新規登録の場合、パスワードの入力値チエックと社員番号の重複チエックを実施する
             List<String> errors = EmployeeValidator.validate(e, true, true);
             if(errors.size() > 0) {
                 em.close();

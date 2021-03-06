@@ -35,6 +35,7 @@ public class EmployeesIndexServlet extends HttpServlet {
         EntityManager em = DBUtil.createEntityManager();
 
         int page = 1;
+        //一ページに表示することのできる最大情報は15で次のページの先頭から表示することのできるように
         try{
             page = Integer.parseInt(request.getParameter("page"));
         } catch(NumberFormatException e) { }
@@ -42,7 +43,7 @@ public class EmployeesIndexServlet extends HttpServlet {
                                      .setFirstResult(15 * (page - 1))
                                      .setMaxResults(15)
                                      .getResultList();
-
+       //従業員数を取得する
         long employees_count = (long)em.createNamedQuery("getEmployeesCount", Long.class)
                                        .getSingleResult();
 
@@ -52,6 +53,7 @@ public class EmployeesIndexServlet extends HttpServlet {
         request.setAttribute("employees_count", employees_count);
         request.setAttribute("page", page);
         if(request.getSession().getAttribute("flush") != null) {
+            //flushがnullでなければflushを表示する
             request.setAttribute("flush", request.getSession().getAttribute("flush"));
             request.getSession().removeAttribute("flush");
         }

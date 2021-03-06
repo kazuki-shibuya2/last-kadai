@@ -40,11 +40,13 @@ public class ReportsIndexServlet extends HttpServlet {
         } catch(Exception e) {
             page = 1;
         }
+        //常にページの先頭からメッセージを表示できるように処理する
         List<Report> reports = em.createNamedQuery("getAllReports", Report.class)
                                   .setFirstResult(15 * (page - 1))
                                   .setMaxResults(15)
                                   .getResultList();
 
+        //ネイムクエリーを使って従業員数を取得する
         long reports_count = (long)em.createNamedQuery("getReportsCount", Long.class)
                                      .getSingleResult();
 

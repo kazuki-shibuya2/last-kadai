@@ -45,7 +45,9 @@ public class ReportsCreateServlet extends HttpServlet {
             r.setEmployee((Employee)request.getSession().getAttribute("login_employee"));
 
             Date report_date = new Date(System.currentTimeMillis());
+            //日付を取得
             String rd_str = request.getParameter("report_date");
+            //日付が未入力であった場合、当日の日付を入れるようにしている
             if(rd_str != null && !rd_str.equals("")) {
                 report_date = Date.valueOf(request.getParameter("report_date"));
             }
@@ -57,7 +59,7 @@ public class ReportsCreateServlet extends HttpServlet {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             r.setCreated_at(currentTime);
             r.setUpdated_at(currentTime);
-
+            //エラーが出てしまった場合はニューにもどり、そうでない場合は登録処理を実行する。
             List<String> errors = ReportValidator.validate(r);
             if(errors.size() > 0) {
                 em.close();

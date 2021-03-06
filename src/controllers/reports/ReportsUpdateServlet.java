@@ -45,7 +45,7 @@ public class ReportsUpdateServlet extends HttpServlet {
             r.setTitle(request.getParameter("title"));
             r.setContent(request.getParameter("content"));
             r.setUpdated_at(new Timestamp(System.currentTimeMillis()));
-
+            //エラー表記を行う
             List<String> errors = ReportValidator.validate(r);
             if(errors.size() > 0) {
                 em.close();
@@ -61,6 +61,7 @@ public class ReportsUpdateServlet extends HttpServlet {
                 em.getTransaction().commit();
                 em.close();
                 request.getSession().setAttribute("flush", "更新が完了しました。");
+                //セッションを削除することを忘れない
 
                 request.getSession().removeAttribute("report_id");
 
